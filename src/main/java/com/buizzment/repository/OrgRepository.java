@@ -11,8 +11,8 @@ import java.util.Optional;
 @Repository
 public interface OrgRepository extends MongoRepository<Org, String> {
 
-    @Query("{ '_id' : ?0 }")
     Optional<Org> findById(String id);
+
     Optional<Org> findByName(String name);
     Boolean existsByName(String name);
 }
