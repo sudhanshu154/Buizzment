@@ -8,6 +8,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+
+import com.buizzment.repository.ProjectRepository;
+
 import java.util.Set;
 
 @Component("orgSecurity")
@@ -15,6 +18,7 @@ import java.util.Set;
 public class OrgSecurity {
 
     private final UserRepository userRepository;
+    private final ProjectRepository projectRepository;
 
 //    public boolean isMember(String orgId) {
 //        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -45,5 +49,11 @@ public class OrgSecurity {
                 .contains(permission) ||
                 user.getOrgPermissions().getOrDefault(orgId, Set.of())
                         .contains("*"); // Wildcard permission
+    }
+
+    public boolean hasProjectAccess(String orgId, String projectId) {
+        // Verify project belongs to org
+        return projectRepository.existsByIdAndOrganizationId(projectId, orgId) &&
+                isMember(orgId);
     }
 }

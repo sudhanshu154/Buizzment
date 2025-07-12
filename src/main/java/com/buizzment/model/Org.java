@@ -32,5 +32,11 @@ public class Org {
 
     @Field("permission_templates")
     private Map<String, Set<String>> permissionTemplates = new HashMap<>();
+
+    @Field("project_ids")
+    private Set<String> projectIds = new HashSet<>();
+
+    @Field("active_projects_count")
+    private Integer activeProjectsCount = 0;
 }
 
