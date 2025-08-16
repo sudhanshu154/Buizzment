@@ -3,6 +3,7 @@ package com.buizzment.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -49,9 +50,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/test/**").permitAll()
+//                        .requestMatchers("/api/attendances/**").permitAll()
                         .requestMatchers("/api/users/me").authenticated()
+                        .requestMatchers("/api/workers/**").hasAnyRole("HR", "ADMIN")
+                        .requestMatchers("/api/attendances/**").hasAnyRole("SUPERVISOR", "ADMIN")
                         .anyRequest().authenticated()
-                );
+                ).httpBasic(Customizer.withDefaults());
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 

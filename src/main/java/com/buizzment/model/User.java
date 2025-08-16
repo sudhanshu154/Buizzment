@@ -23,7 +23,8 @@ public class User implements UserDetails {
     private String email;
     private boolean enabled = true;
 
-    private Set<String> roles = new HashSet<>();
+//    private Set<String> roles = new HashSet<>();
+    private Set<String> roles = Set.of("WORKER");  // Default role
     private Set<String> permissions = new HashSet<>();
 
     @DBRef
