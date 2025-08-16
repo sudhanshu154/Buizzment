@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -15,6 +17,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Document(collection = "projects")
+@CompoundIndexes({
+        @CompoundIndex(name = "org_status_idx", def = "{'organization.$id': 1, 'status': 1}"),
+        @CompoundIndex(name = "org_dates_idx", def = "{'organization.$id': 1, 'startingDate': 1, 'tentativeEndingDate': 1}")
+})
 @Data
 @Builder
 public class Project {

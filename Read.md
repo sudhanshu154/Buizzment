@@ -73,3 +73,33 @@ Controller-->>-Client: Response
 "password": "password123",
 "roles": "ADMIN"
 }
+
+
+## 7. Summary Diagram
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant AuthController
+    participant AuthService
+    participant JwtTokenProvider
+    participant JwtAuthenticationFilter
+    participant SecuredController
+
+    Client->>AuthController: POST /api/auth/login (credentials)
+    AuthController->>AuthService: authenticate()
+    AuthService->>JwtTokenProvider: generateToken()
+    JwtTokenProvider-->>AuthService: JWT
+    AuthService-->>AuthController: JWT
+    AuthController-->>Client: JWT
+
+    Client->>SecuredController: GET /api/users/me (Authorization: Bearer JWT)
+    SecuredController->>JwtAuthenticationFilter: (filter request)
+    JwtAuthenticationFilter->>JwtTokenProvider: validateToken()
+    JwtTokenProvider-->>JwtAuthenticationFilter: valid/invalid
+    JwtAuthenticationFilter-->>SecuredController: set user context
+    SecuredController-->>Client: Response
+```
+https://mermaid.live/edit#pako:eNqNVF1vmzAU_SvWfUqlNHw6IX6otGUfUl9WLZEmTbxYcEutgs2MybpG-e8zhC0kcbb6BWyfc-65x4YdZCpHYEDsaPBHizLDD4IXmlepJMOouTYiEzWXhqxKgdK499615mmlpNGqLFFfx6xRb0WGbsD9T7NRzygftNqK_JqMRXVK1orIuBFKfhKluQZeY9ZqzMfWjsBDQ7d3d6fuGXn4st4Qj9fC43bHK1UhJJlkVqirysvm5ihyyh3EhjYZ4UenODljDSBLOW-ckQIlasvpl8fEc-jtecX7bxt3GUefF9hRIxZ-yGeAOWK7CJeRzx-H4NoGdeNVSCadrtLitT8rRt4j16g7zVFXF0qHUFznzMjksX8huru0jTkNx0VxJrzlpcjfmvBVL72KJ2T__L8Rd2gNGtLlRTK7iC_mX7mMjuUrNrWSDcIUCi1yYEa3OIUKdcW7Kew6oRSsjwpTYPY15_o5hVTuLcd-H9-Vqv7QtGqLJ2CP9nbbWVt32Qy_g7-rGqUNZKVaaYAF0bIXAbaDF2BLOlsEiR8ESeyH88QPp_AL2DyaxVEcLkJK6TKh4SLeT-G1L-vPknkUBTSmdB5QGvrx_jfPcIP9
+
+![Authentication Flow Diagram](auth_flow_diagram.png)
