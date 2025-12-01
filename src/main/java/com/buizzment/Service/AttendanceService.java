@@ -52,10 +52,10 @@ public class AttendanceService {
 
     public Attendance getAttendance(String tenderId, String workerId, LocalDate date, Attendance.AttendanceStatus status) {
         YearMonth monthYear = YearMonth.from(date);
-        
+
         Optional<Attendance> attendanceOpt = attendanceRepository
                 .findByTenderIdAndWorkerIdAndMonthYear(tenderId, workerId, monthYear);
-        
+
         if (attendanceOpt.isPresent()) {
             Attendance attendance = attendanceOpt.get();
             // Check if the specific date has the requested status
@@ -64,7 +64,7 @@ public class AttendanceService {
                 return attendance;
             }
         }
-        
+
         throw new RuntimeException("Attendance record not found for the specified criteria");
     }
 

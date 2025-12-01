@@ -43,17 +43,17 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .cors(AbstractHttpConfigurer::disable)
+                .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/test/**").permitAll()
-//                        .requestMatchers("/api/attendances/**").permitAll()
+                        .requestMatchers("/api/attendances/**").permitAll()
                         .requestMatchers("/api/users/me").authenticated()
                         .requestMatchers("/api/workers/**").hasAnyRole("HR", "ADMIN")
-                        .requestMatchers("/api/attendances/**").hasAnyRole("SUPERVISOR", "ADMIN")
+//                        .requestMatchers("/api/attendances/**").hasAnyRole("SUPERVISOR", "ADMIN")
                         .anyRequest().authenticated()
                 ).httpBasic(Customizer.withDefaults());
 

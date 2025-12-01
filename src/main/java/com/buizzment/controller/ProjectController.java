@@ -64,7 +64,8 @@ public class ProjectController {
 
 
     @GetMapping("/{projectId}")
-    @PreAuthorize("@orgSecurity.hasOrgPermission(#orgId, 'project.read')")
+//    @PreAuthorize("@orgSecurity.hasOrgPermission(#orgId, 'project.read')")
+    @PreAuthorize("@orgSecurity.isMember(#orgId)")
     public ResponseEntity<ProjectResponse> getProject(
             @PathVariable String orgId,
             @PathVariable String projectId) {

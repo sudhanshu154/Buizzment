@@ -37,6 +37,8 @@ public class Worker {
     @Field("contact_number")
     private String contactNumber;
 
+    private String designation;
+
     @Field("bank_details")
     private BankDetails bankDetails;
 

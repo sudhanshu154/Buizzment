@@ -23,6 +23,7 @@ public class WorkerResponseDto {
     private Set<String> orgIds;
     private Set<String> tags;
     private boolean isActive;
+    private String designation;
 
     // Reuse the BankDetailsDto from WorkerCreateDto
 }

@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.NoArgsConstructor;
 
 import java.util.Set;
@@ -31,9 +32,12 @@ public class WorkerCreateDto {
 
     @Valid
     private BankDetailsDto bankDetails;
+
     private Set<String> tags;
 
-//    @NotBlank(message = "Org Id is mandatory")
+    private String designation;
+
+    @NotEmpty(message = "Org Id is mandatory")
     @JsonProperty("org_ids")
     private Set<String> orgIds;
 }

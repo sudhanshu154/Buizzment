@@ -27,14 +27,15 @@ public class WorkerService {
         worker.setUanNumber(dto.getUanNumber());
         worker.setContactNumber(dto.getContactNumber());
         worker.setOrgIds(dto.getOrgIds());
+        worker.setDesignation(dto.getDesignation());
 
         if (dto.getBankDetails() != null) {
-            Worker.BankDetails.builder()
+            worker.setBankDetails(Worker.BankDetails.builder()
                     .accountNumber(dto.getBankDetails().getAccountNumber())
                     .ifscCode(dto.getBankDetails().getIfscCode())
                     .bankName(dto.getBankDetails().getBankName())
                     .branch(dto.getBankDetails().getBranch())
-                    .build();
+                    .build());
         }
 
         if (dto.getTags() != null) {
@@ -55,6 +56,7 @@ public class WorkerService {
         response.setTags(worker.getTags());
         response.setActive(worker.isActive());
         response.setOrgIds(worker.getOrgIds());
+        response.setDesignation(worker.getDesignation());
 
         if (worker.getBankDetails() != null) {
             BankDetailsDto bankDetails = new BankDetailsDto();
@@ -69,7 +71,7 @@ public class WorkerService {
     }
 
     public List<Worker> getOrgWorker(@Valid String orgId) {
-//        log.info("In get Org Worker");
+        // log.info("In get Org Worker");
         return workerRepository.findByOrgIdsContaining(orgId);
     }
 
@@ -86,7 +88,7 @@ public class WorkerService {
                     worker.setDob(dto.getDob());
                     worker.setOrgIds(Set.of(orgId));
 
-                    if (dto.getBankDetails()!=null && !dto.getBankDetails().contains("NOT AVAILABLE")) {
+                    if (dto.getBankDetails() != null && !dto.getBankDetails().contains("NOT AVAILABLE")) {
                         // Split the string by comma
                         String[] parts = dto.getBankDetails().split(",");
 
